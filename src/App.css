@@ -3,65 +3,6 @@
   min-height: 100vh;
 }
 
-
-/* 
-/* .Login-page {
-  background-color: #a5afc2;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  /* align-items: center;
-  justify-content: center; */
-
-
-/* .Login-form{
- background-color: blueviolet;
+.input {
+  border: 1px solid rgb(214, 206, 206);
 }
-
-
-.Form {
-  width: 500px;
-  height: 600px;
-  border-radius: 20px;
-  background-color: white;
-
-}
-
-.png{
-  width: 100px;
-  height:100px;
- margin:auto ;
-  margin-top:0px;
-  background-image: url(components/Auth/icons8-chat-box-64.png);
-  background-repeat: no-repeat;
-}
-
-.username {
-  margin-top: 40px;
-  width: 250px;
-  height: 30px;
-  border: 2px solid rgb(255, 0, 13);
-  border-radius: 5px;
-  padding: 5px;
-}
-
-.password {
-  margin-top: 40px;
-  width: 250px;
-  height: 30px;
-  border: 2px solid blue;
-  border-radius: 5px;
-  padding: 5px;
-}
-
-.login {
-  width: 250px;
-  height: 30px;
-  border: 2px solid blue;
-  border-radius: 5px;
-  padding: 5px;
-  font-weight: bolder;
-  color: white;
-  background-color: rgb(45, 112, 219);
-} */
-
