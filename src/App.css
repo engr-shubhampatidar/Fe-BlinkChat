@@ -4,49 +4,49 @@
 }
 
 
-
-.App-header {
-  background-color: #282c34;
+/* 
+/* .Login-page {
+  background-color: #a5afc2;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(151, 17, 17);
+  /* align-items: center;
+  justify-content: center; */
+
+
+/* .Login-form{
+ background-color: blueviolet;
 }
 
-.Login-Bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(151, 17, 17);
-}
 
 .Form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(151, 17, 17);
-  border: 2px solid rgb(25, 25, 27);
+  width: 500px;
+  height: 600px;
+  border-radius: 20px;
   background-color: white;
-  padding: 100px 30px;
-  gap: 15px;
+
+}
+
+.png{
+  width: 100px;
+  height:100px;
+ margin:auto ;
+  margin-top:0px;
+  background-image: url(components/Auth/icons8-chat-box-64.png);
+  background-repeat: no-repeat;
 }
 
 .username {
+  margin-top: 40px;
   width: 250px;
   height: 30px;
-  border: 2px solid blue;
+  border: 2px solid rgb(255, 0, 13);
   border-radius: 5px;
   padding: 5px;
 }
 
 .password {
+  margin-top: 40px;
   width: 250px;
   height: 30px;
   border: 2px solid blue;
@@ -63,5 +63,5 @@
   font-weight: bolder;
   color: white;
   background-color: rgb(45, 112, 219);
-}
+} */
 
