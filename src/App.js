@@ -1,25 +1,18 @@
 
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header" >
-        <div className='Login-Bar'>
-          <div className='Login-Form'>
-            <form className='Form'>
-              <input className='username' type="text" placeholder="Username" />
-              <input className='password' type="password" placeholder="Password" />
-              <input className='login' type="submit" value="Login" />
-            </form>
-          </div>
-          <div className='Login-Footer'>
-            <p>
-              Don't have an account?
-            </p>
-          </div>
-        </div>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/home" exact element={<Home />} />
+          {/* <Route path="/login" component={Login} /> */}
+          {/* <Route path="/register" component={Register} /> */}
+        </Routes>
+      </Router>
     </div>
   );
 }

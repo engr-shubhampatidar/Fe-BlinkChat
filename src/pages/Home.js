@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../assets/images/logo.png";
 
-export const Home = () => {
+const Home = () => {
   return (
     <div>
       <div className="bg-[#014efe] h-screen home-bg">
@@ -21,3 +21,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
