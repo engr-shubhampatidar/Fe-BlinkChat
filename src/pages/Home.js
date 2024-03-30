@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/images/logo.png";
 import dummyChat from "../assets/images/web-chat-demo.png";
 
-export const Home = () => {
+const Home = () => {
   return (
     <div className="bg-[#014efe] h-screen home-bg">
       <div className="mx-20">
@@ -112,3 +112,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
