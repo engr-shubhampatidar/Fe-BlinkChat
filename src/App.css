@@ -3,6 +3,6 @@
   min-height: 100vh;
 }
 
-
-
-
+.input {
+  border: 1px solid rgb(214, 206, 206);
+}

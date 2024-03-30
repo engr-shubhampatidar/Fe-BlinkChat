@@ -1,8 +1,9 @@
 
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import {Home } from './pages/Home';
 import Register from './components/Auth/Register/index';
+import Home from "./pages/Home";
+import LoginPage from './components/Auth/Login';
 
 function App() {
   return (
@@ -10,8 +11,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" exact element={<Home />} />
-          {/* <Route path="/login" component={<Login/>} /> */}
           <Route path="/register" exact element={<Register/>} />
+          <Route path="/login" element={<LoginPage/>} />
         </Routes>
       </Router>
     </div>
