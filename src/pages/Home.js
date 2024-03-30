@@ -45,16 +45,69 @@ const Home = () => {
           className="w-screen rounded-lg border-slate-200 border-4"
         />
       </div>
-      <div className="mx-20 mt-20">
-        <button className="p-3 bg-slate-300 text-[#014efe] text-lg font-semibold rounded-3xl">
-          Features
-        </button>
-        <p className="p-4 text-5xl">
-          Reason why you should choose a{" "}
-          <span className="text-[#014efe] text-5xl text-lg font-bold">
-            BlinkChat
-          </span>
-        </p>
+      {/* Feature section */}
+      <div className="mx-20 my-20">
+        <div>
+          <button className="p-3 bg-slate-300 text-[#014efe] text-lg font-semibold rounded-3xl">
+            Features
+          </button>
+          <p className="p-4 text-5xl">
+            Reason why you should choose a{" "}
+            <span className="text-[#014efe] text-5xl font-bold">BlinkChat</span>
+          </p>
+          <p className="text-3xl text-slate-900">
+            BlinkChat has several features that make the reason <br />
+            why you choose BlinkChat
+          </p>
+        </div>
+        <div className="my-20">
+          <div class="flex flex-row gap-6">
+            <div class="basis-1/2 h-80 rounded-3xl bg-[#014efe]">
+              <div className="p-7 h-full flex flex-col justify-center items-center">
+                <div className="h-16 text-5xl">01</div>
+                <div className="p-4">
+                  <p className="text-4xl font-semibold text-stone-50">
+                    Easy to use
+                  </p>
+                </div>
+                <div className="p-2">
+                  <p className="text-1xl text-stone-50">
+                    Easy to user for anyone, <br />
+                    and simple.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="basis-1/2 h-80 rounded-3xl bg-[#eff1f4]">
+              <div className="p-7 h-full flex flex-col justify-center items-center">
+                <div className="h-16 text-5xl">02</div>
+                <div className="p-4">
+                  <p className="text-4xl font-semibold">Real Time</p>
+                </div>
+                <div className="p-2">
+                  <p className="text-1xl text-slate-900">
+                    Connect with friends <br />
+                    in real time.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="basis-1/2 h-80 rounded-3xl bg-[#eff1f4]">
+              <div className="p-7 h-full flex flex-col justify-center items-center">
+                <div className="h-16 text-5xl">03</div>
+                <div className="p-4">
+                  <p className="text-4xl font-semibold">Safety & Private</p>
+                </div>
+                <div className="p-2">
+                  <p className="text-1xl text-slate-900">
+                    Enjoy your comfort and safety, <br />
+                    when talking.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
