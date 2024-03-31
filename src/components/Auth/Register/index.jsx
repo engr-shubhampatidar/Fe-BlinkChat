@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../Register/index.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo.png";
+import axios from "axios";
 function Register() {
   const [countryList, setCountryList] = useState([]);
   const getCountries = () => {
@@ -15,6 +16,26 @@ function Register() {
   useEffect(() => {
     getCountries();
   }, []);
+ 
+ const [userData, setUserData] = useState({ email: "", password: "" ,name:"" , confirmPassword:""});
+  const navigate = useNavigate();
+  const submitinfo = () => {
+    try{
+    axios
+  .post("http://localhost:4000/api/user/register",{
+    email: userData?.email,
+    password: userData?.password,
+    name:userData?.name,
+
+  })
+    .then((response) => {
+          localStorage.setItem("user", JSON.stringify(response?.data));
+          navigate("/");
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <>
       <div className="SignUp-page bg-[#014efe] h-screen ">
@@ -42,6 +63,10 @@ function Register() {
                     Full name *
                   </p>
                   <input
+                  value={userData?.name}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, name: e.target.value }))
+                }
                     type="text"
                     className="input-area bg-white rounded-md text-sm text-gray-600 w-56 p-0.5 py-2
                                            border-2 border-solid border-gray-700 mb-4 pl-2"
@@ -52,6 +77,10 @@ function Register() {
                     password *
                   </p>
                   <input
+                  value={userData?.password}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, password: e.target.value }))
+                }
                     type="password"
                     className="input-area bg-white rounded-md text-sm text-gray-600 w-56 p-0.5 py-2
                                             border-2 border-solid border-gray-700 mb-4 pl-2"
@@ -81,11 +110,15 @@ function Register() {
                 </form>
               </div>
               <div className=" w-auto h-auto  ">
-                <form className="p-2">
+                <div className="p-2">
                   <p className="text-xs mr-40 w-auto font-bold pb-1">
                     Email ID *
                   </p>
                   <input
+                  value={userData?.email}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, email: e.target.value }))
+                }
                     type="text"
                     className="input-area bg-white rounded-md text-sm text-gray-600 w-56 p-0.5 py-2
                                             border-2 border-solid border-gray-700 mb-4 pl-2"
@@ -96,6 +129,10 @@ function Register() {
                     Confrim password *
                   </p>
                   <input
+                  value={userData?.confirmPassword}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                }
                     type="password"
                     className=" input-area bg-white rounded-md text-sm text-gray-600 w-56 p-0.5 py-2
                                             border-2 border-solid border-gray-700 mb-4 pl-2"
@@ -122,7 +159,7 @@ function Register() {
                                              pl-2 pr-2"
                     placeholder="date"
                   />
-                </form>
+                </div>
               </div>
             </div>
             <div className="flex flex-r justify-center items-center gap-7">
@@ -132,7 +169,9 @@ function Register() {
                 </button>
               </div>
               <div className="flex justify-center items-center">
-                <button className="bg-[#014efe] text-white w-56 px-4 py-1.5 rounded-md  mb-4 ">
+                <button
+                 onClick={submitinfo}
+                className="bg-[#014efe] text-white w-56 px-4 py-1.5 rounded-md  mb-4 ">
                   Confrim
                 </button>
               </div>
