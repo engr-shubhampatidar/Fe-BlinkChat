@@ -1,8 +1,15 @@
 import React from "react";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo-white.svg";
 import dummyChat from "../assets/images/web-chat-demo.png";
+import { NavLink } from "react-router-dom";
+import { useRef } from "react";
+
 
 const Home = () => {
+  const ref = useRef(null);
+  const handleClick = () => {
+  ref.current?.scrollIntoView({behavior: 'smooth'});
+  };
   return (
     <div className="bg-[#014efe] h-screen home-bg">
       <div className="mx-20">
@@ -12,10 +19,13 @@ const Home = () => {
             <p className="text-stone-50 text-lg">BlinkChat</p>
           </div>
           <div class="basis-1/3 flex items-center justify-between">
-            <p className="text-stone-50 text-sm">Home</p>
-            <p className="text-stone-50 text-sm">Feature</p>
-            <p className="text-stone-50 text-sm">About Us</p>
-            <p className="text-stone-50 text-sm">Get Started</p>
+            <p className="text-stone-50 text-sm cursor-pointer">Home</p>
+            <p className="text-stone-50 text-sm cursor-pointer" onClick={handleClick}>
+                Feature
+              </p>
+            <p className="text-stone-50 text-sm cursor-pointer">About Us</p>
+            <p className="text-stone-50 text-sm"> 
+            <NavLink to={'/register'}>Get Started</NavLink></p>
           </div>
         </div>
         <div className="flex flex-row mt-20 mb-20 h-80">
@@ -32,7 +42,7 @@ const Home = () => {
                 Start chatting now on BlinkChat
               </p>
               <button className="bg-white p-2 mt-1 rounded-md">
-                Get Started
+                <NavLink to={'/register'}>Get Started</NavLink>
               </button>
             </div>
           </div>
@@ -46,7 +56,7 @@ const Home = () => {
         />
       </div>
       {/* Feature section */}
-      <div className="mx-20 my-20">
+      <div className="mx-20 my-20" ref={ref}>
         <div>
           <button className="p-3 bg-slate-300 text-[#014efe] text-lg font-semibold rounded-3xl">
             Features

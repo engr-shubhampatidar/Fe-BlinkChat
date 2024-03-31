@@ -1,5 +1,6 @@
 import React from "react";
-import logo from "../../assets/images/logo.png";
+import { NavLink } from "react-router-dom";
+import logo from "../../assets/images/logo-blue.svg";
 
 function LoginPage() {
   return (
@@ -14,23 +15,28 @@ function LoginPage() {
               <p>WelCome Back</p>
             </div>
             <div className="flex text-xs py-2 px-2 mb-4  text-gray-600 w-48">
-              <p>Glad to see you again login to your account below</p>
+              <p>
+                Glad to see you again <br />
+                login to your account below
+              </p>
             </div>
           </div>
           <div className="flex justify-center items-center flex-col text-gray-400">
             <form className=" flex justify-center items-center flex-col">
-              <p className="mr-56 text-xs mb-1 font-bold">Email ID</p>
+              <p className="mr-56 text-left text-xs mb-1 font-bold">Email ID</p>
               <input
                 type="text"
-                className=" input text-black bg-white rounded-md text-sm text-gray-600 w-72 p-2 py-2 mb-4
+                className="border border-solid border-[rgb(214, 206, 206)]
+                 bg-white rounded-md text-sm text-gray-600 w-72 p-2 py-2 mb-4
                          "
                 placeholder="email@useremail"
               />
               <p className=" text-xs mb-1 font-bold mr-52">Password</p>
               <input
                 type="password"
-                className=" input text-black bg-white rounded-md text-sm text-gray-600 w-72 p-2 py-2 mb-4"
-                placeholder="Password....."
+                className="border border-solid border-[rgb(214, 206, 206)] 
+                bg-white rounded-md text-sm text-gray-600 w-72 p-2 py-2 mb-4"
+                placeholder="Password..."
               />
               <button
                 className="bg-blue-800 text-white rounded-md text-xs  font-600 w-72 py-2 mb-4
@@ -41,9 +47,10 @@ function LoginPage() {
               <div className="lol mb-4 text-xs ">
                 <p>
                   Don't have an account ?
-                  <a className="text-blue-600" href="#">
-                    Sign up
-                  </a>{" "}
+                  <NavLink className={"text-[#014efe]"} to={"/Register"}>
+                    {" "}
+                    Sign Up
+                  </NavLink>
                 </p>
               </div>
             </form>

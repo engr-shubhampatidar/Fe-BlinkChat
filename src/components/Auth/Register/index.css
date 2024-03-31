@@ -1,12 +1,7 @@
 .SignUp-page {
-    min-height: 100vh;
     flex-direction: column;
      color: rgb(42, 36, 36);
      background-image: url(../../../assets/images/background.jpg);
-     background-size: cover;
-     opacity: 5;
+    background-size: cover;
   }
   
-  .input-area {
-    border: 1px solid rgb(214, 206, 206);
-  }
