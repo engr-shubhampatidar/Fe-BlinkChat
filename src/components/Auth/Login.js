@@ -47,7 +47,7 @@ function LoginPage() {
                 </p>
               </div>
             </form>
-          </div>
+      ``    </div>
         </div>
       </div>
     </>
