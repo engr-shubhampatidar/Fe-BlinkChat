@@ -1,9 +1,11 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Register from "./components/Auth/Register/index";
+import LoginPage from "./components/Auth/Login";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 
-import LoginPage from "./components/Auth/Login";
 
 function App() {
   return (
