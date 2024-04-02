@@ -1,30 +1,37 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/logo-blue.svg";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 function LoginPage() {
   const [user, setUser] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      axios
-        .post("http://localhost:4000/api/user/login", {
+      await api
+        .post("/api/user/login", {
           email: user?.email,
           password: user?.password,
         })
         .then((response) => {
           localStorage.setItem("user", JSON.stringify(response?.data));
-          navigate("/");
+          navigate("/chats");
+        })
+        .catch((error) => {
+          console.log(error, "err");
+          if (error?.response?.data) {
+            setErrorMessage(error.response.data);
+          } else {
+            setErrorMessage("An error occurred while logging in");
+          }
         });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
-
-  console.log(user, "user data");
 
   return (
     <>
@@ -69,6 +76,9 @@ function LoginPage() {
                 bg-white rounded-md text-sm text-gray-600 w-72 p-2 py-2 mb-4"
                 placeholder="Password..."
               />
+              <div className="text-red-600   text-xs  pb-5 flex items-center">
+                <p className=" w-40">{errorMessage}</p>
+              </div>
               <button
                 onClick={handleSubmit}
                 className="bg-blue-800 text-white rounded-md text-xs  font-600 w-72 py-2 mb-4
@@ -79,7 +89,7 @@ function LoginPage() {
               <div className="lol mb-4 text-xs ">
                 <p>
                   Don't have an account ?
-                  <NavLink className={"text-[#014efe]"} to={"/Register"}>
+                  <NavLink className={"text-[#014dfe]"} to={"/Register"}>
                     {" "}
                     Sign Up
                   </NavLink>

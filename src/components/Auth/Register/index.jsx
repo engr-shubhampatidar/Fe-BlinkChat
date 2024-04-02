@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../Register/index.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../../../assets/images/love.png";
+import logo from "./../../../assets/images/logo-blue.svg";
+import api from "../../../services/api";
+
+// import logo from "../../../assets/images/love.png";
 import axios from "axios";
 function Register() {
   const [countryList, setCountryList] = useState([]);
@@ -23,23 +26,33 @@ function Register() {
     name: "",
     confirmPassword: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
-  const submitinfo = () => {
+  const submitinfo = async () => {
     try {
-      axios
-        .post("http://localhost:4000/api/user/register", {
+      await api
+        .post("/api/user/register", {
           email: userData?.email,
           password: userData?.password,
           name: userData?.name,
         })
         .then((response) => {
           localStorage.setItem("user", JSON.stringify(response?.data));
-          navigate("/");
+          navigate("/login");
+        })
+        .catch((error) => {
+          if (error?.response?.data) {
+            setErrorMessage(error.response.data);
+          } else {
+            setErrorMessage("An error occurred while register");
+          }
         });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
+
   return (
     <>
       <div className="SignUp-page bg-gray-300 h-screen home-bg">
@@ -180,6 +193,9 @@ function Register() {
                   />
                 </div>
               </div>
+            </div>
+            <div className="text-red-600  text-xs flex items-center pb-5 ml-12">
+              <p className=" w-96 ">{errorMessage}</p>
             </div>
             <div className="flex flex-r justify-center items-center gap-5">
               <div className="flex justify-center items-center">
