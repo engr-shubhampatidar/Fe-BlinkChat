@@ -68,7 +68,7 @@ function Chat() {
     <div className="bg-slate-200 h-screen">
       <div className="bg-gray-100 h-screen flex">
         <div className="w-auto bg-gray-200 p-4">
-          <h1 className="text-xl font-semibold mb-4">Users</h1>
+          <h1 className="text-xl font-semibold mb-4">{}</h1>
           <div className="space-y-2 ">
             {userList.map((user) => (
               <div
@@ -89,7 +89,7 @@ function Chat() {
           <h1 className="text-xl font-semibold mb-4">
             {recipientUser?.name || "Select a user"}
           </h1>
-          <div className="flex flex-col mb-4">
+          <div className="flex flex-col">
             {messages.map((message) => (
               <div
                 key={message._id}
