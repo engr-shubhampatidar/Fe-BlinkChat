@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect(process.env.REACT_APP_BASE_URL);
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -10,6 +12,8 @@ function Chat() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [recipientUser, setRecipientUser] = useState(null);
   const [userList, setUserList] = useState([]);
+
+  const navigate = useNavigate();
 
   const sendMessage = () => {
     if (!recipientUser) return; // Ensure recipient is selected
@@ -46,8 +50,8 @@ function Chat() {
   }, [currentUser.id]);
 
   const getAllUsers = () => {
-    axios
-      .get("http://localhost:4000/api/user/all")
+    api
+      .get("/api/user/all")
       .then((res) => {
         console.log(res?.data);
         const { user } = res?.data;
@@ -60,15 +64,44 @@ function Chat() {
       });
   };
 
+  const getMessages = async () => {
+    await api
+      .get(`/api/messages/${currentUser?.id}/${recipientUser?._id}`)
+      .then((response) => {
+        console.log(response?.data);
+        setMessages(response?.data);
+      })
+      .catch((error) => {
+        console.log(error?.message);
+      });
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, [recipientUser]);
+
   useEffect(() => {
     getAllUsers();
   }, []);
+
+  const logOut = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  console.log(recipientUser);
 
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-gray-100 h-screen flex">
         <div className="w-auto bg-gray-200 p-4">
-          <h1 className="text-xl font-semibold mb-4">{}</h1>
+          <h1 className="text-xl font-semibold mb-4">Users</h1>
+          <button
+            onClick={logOut}
+            className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-r-md"
+          >
+            log out
+          </button>
           <div className="space-y-2 ">
             {userList.map((user) => (
               <div
@@ -117,7 +150,7 @@ function Chat() {
               }}
             />
             <button
-              className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-r-md hover:bg-blue-600"
+              className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-r-md hover:bg-blue-700"
               onClick={sendMessage}
             >
               Send
