@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Register/index.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from "./../../../assets/images/logo-blue.svg";
-
+import logo from "../../../assets/images/love.png";
 import axios from "axios";
 function Register() {
   const [countryList, setCountryList] = useState([]);
