@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect(process.env.REACT_APP_BASE_URL);
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
