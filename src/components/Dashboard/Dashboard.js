@@ -1,17 +1,11 @@
 import React from "react";
-import profile from "./../../assets/images/profile.jpg";
-import logo from "./../../assets/images/logo-pencil.png";
-import chat from "./../../assets/images/conversation.png";
-import person from "./../../assets/images/person.png";
-import fav from "./../../assets/images/love.png";
 import bell from "./../../assets/images/logo-bell.png";
-import logOut from "./../../assets/images/logout.png";
-import { NavLink } from "react-router-dom";
+import logo from "./../../assets/images/logo-pencil.png";
+import fav from "./../../assets/images/love.png";
 
-import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import io from "socket.io-client";
-const socket = io.connect(process.env.REACT_APP_BASE_URL);
+import { useEffect, useRef, useState } from "react";
+import { useSocket } from "../../services/sockets";
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
@@ -19,6 +13,8 @@ function Dashboard() {
   const [userList, setUserList] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [recipientUser, setRecipientUser] = useState(null);
+
+  const socket = useSocket();
 
   const chatbox = useRef(null);
   // useEffect(() => chatbox.current.scrollIntoView(false), [messages]);
@@ -50,29 +46,27 @@ function Dashboard() {
     scrollBottom();
   };
 
+  // Add message event listener only once
+  const handleNewMessage = (message) => {
+    saveMessage(message);
+  };
+
   useEffect(() => {
-    console.log("Socket connected");
-    socket.emit("joinRoom", currentUser.id);
-
-    // Add message event listener only once
-    const handleNewMessage = (message) => {
-      console.log("Message received:", message);
-      saveMessage(message);
-    };
-
     socket.on("message", handleNewMessage);
 
-    // Clean up event listener when component unmounts
     return () => {
       socket.off("message", handleNewMessage);
     };
+  }, []);
+
+  useEffect(() => {
+    if (currentUser && currentUser.id) socket.emit("joinRoom", currentUser.id);
   }, [currentUser.id]);
 
   const getAllUsers = async () => {
     await axios
       .get("http://localhost:4000/api/user/all")
       .then((res) => {
-        console.log(res?.data);
         const { user } = res?.data;
         if (user) {
           setUserList(user);
@@ -99,7 +93,6 @@ function Dashboard() {
 
   const getRandomImage = async () => {
     const imageUrl = await getImage();
-    console.log(imageUrl);
     return imageUrl;
   };
 
@@ -134,7 +127,7 @@ function Dashboard() {
             <div className="overflow-y-auto h-5/6 no-scrollbar">
               {userList.map((user) => (
                 <div
-                  key={user}
+                  key={user?._id}
                   className=" babu flex w-full border rounded-lg border-solid border-gray-300] 
                   hover:bg-gray-200 active:bg-gray-200 "
                 >
