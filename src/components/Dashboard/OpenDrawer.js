@@ -8,6 +8,7 @@ import { useSocket } from "../../services/sockets";
 import { useDispatch } from "react-redux";
 import { setReciepentUser } from "../../services/redux/userReducer";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 const openClassNames = {
   right: "translate-x-0",
