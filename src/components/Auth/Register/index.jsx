@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Register/index.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "./../../../assets/images/logo-blue.svg";
+import logo2 from "./../../../assets/images/Blink-Logo2.png"
 import api from "../../../services/api";
 
 // import logo from "../../../assets/images/love.png";
@@ -55,28 +56,28 @@ function Register() {
 
   return (
     <>
-      <div className="SignUp-page bg-gray-300 h-screen home-bg">
-        <div className=" flex h-screen justify-center items-center ">
+      <div className="SignUp-page bg-gray-300 h-screen  height max-xl:home-bg">
+        <div className=" flex h-screen justify-center items-center  max-sm:p-2">
           <div
             className="w-auto h-auto z-50 p-8 rounded-xl
-                  bg-white  text-gray-600"
+                  bg-white  text-gray-600 max-sm:py-10"
           >
-            <div className="flex justify-start text-3xl font-bold px-2  p-2">
-              <img src={logo} alt="blinkchat-logo" className="h-10" />
+            <div className="flex justify-start text-3xl font-bold p-2 max-sm:justify-center">
+              <img src={logo2} alt="blinkchat-logo" className="h-10" />
             </div>
-            <div className="flex justify-start text-xl px-2 p-2 font-bold text-gray-800">
+            <div className="flex justify-start text-xl px-2 p-2 font-bold text-gray-800 max-sm:justify-center">
               <h1>SignUp</h1>
             </div>
-            <div className="flex justify-start text-sm px-2 p-2">
+            <div className="flex justify-start text-sm px-2 p-2 max-sm:justify-center">
               <p>
                 Enter your details below to create your account and get started.
               </p>
             </div>
 
-            <div className="forms-container flex flex-r grid-cols-2">
-              <div className="  w-auto h-auto ">
-                <form className="p-2">
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+            <div className="forms-container grid grid-cols-2 max-sm:grid-cols-1">
+              <div className="  w-auto h-auto flex justify-center">
+                <form className="p-2 w-60 max-sm:pb-0">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 ">
                     Full name *
                   </p>
                   <input
@@ -90,7 +91,7 @@ function Register() {
                     placeholder="Ex. John Martin"
                   />
 
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+                  <p className="text-xs text-left text-gray-400 w-auto font-bold pb-1 ">
                     password *
                   </p>
                   <input
@@ -107,20 +108,20 @@ function Register() {
                     placeholder="Password "
                   />
 
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 ">
                     Gender
                   </p>
                   <select
-                    className=" w-56 py-2 mb-4 text-xs rounded-md pl-2
+                    className=" w-56 py-2 text-gray-400 mb-4 text-xs rounded-md pl-2
                     border border-solid border-[rgb(214, 206, 206)]"
                     name=""
                     id=""
                   >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option  value="Male">Male</option>
+                    <option  value="Female">Female</option>
                   </select>
 
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 ">
                     Phone Number
                   </p>
                   <input
@@ -132,9 +133,9 @@ function Register() {
                   />
                 </form>
               </div>
-              <div className=" w-auto h-auto  ">
-                <div className="p-2">
-                  <p className="text-xs mr-40 w-auto font-bold pb-1">
+              <div className=" w-auto h-auto flex justify-center ">
+                <div className="p-2 w-60 max-sm:pt-0">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1  ">
                     Email ID *
                   </p>
                   <input
@@ -151,7 +152,7 @@ function Register() {
                     placeholder="example@gmail.com"
                   />
 
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 m">
                     Confrim password *
                   </p>
                   <input
@@ -168,12 +169,12 @@ function Register() {
                     placeholder="Re-enter Password"
                   />
 
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 max-sm:hidden">
                     Select Country
                   </p>
                   <select
                     className="input-area w-56 py-2 mb-4 text-xs rounded-md pl-2
-                    border border-solid border-[rgb(214, 206, 206)]"
+                    border border-solid border-[rgb(214, 206, 206)] max-sm:hidden"
                     name=""
                     id=""
                   >
@@ -182,13 +183,13 @@ function Register() {
                     ))}
                   </select>
 
-                  <p className="text-xs text-left w-auto font-bold pb-1">
+                  <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 max-sm:hidden">
                     date
                   </p>
                   <input
                     type="date"
                     className=" bg-white rounded-md text-xs text-gray-600 w-56 py-2 mb-4 
-                    border border-solid border-[rgb(214, 206, 206)] pl-2 pr-2"
+                    border border-solid border-[rgb(214, 206, 206)] pl-2 pr-2 max-sm:hidden"
                     placeholder="date"
                   />
                 </div>
@@ -197,11 +198,11 @@ function Register() {
             <div className="text-red-600  text-xs flex items-center pb-5 ml-12">
               <p className=" w-96 ">{errorMessage}</p>
             </div>
-            <div className="flex flex-r justify-center items-center gap-5">
-              <div className="flex justify-center items-center">
+            <div className="grid grid-cols-2 justify-center items-center gap-5 max-sm:grid-cols-1 max-sm:gap-2">
+              <div className="flex justify-center items-center order-2">
                 <button
                   className=" text-gray-600  px-4 py-1.5 rounded-md w-56  mb-4 
-                border border-solid border-[rgb(214, 206, 206)]"
+                border border-solid border-[rgb(214, 206, 206)] "
                 >
                   Cancel
                 </button>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assets/images/logo-blue.svg";
+import logo from "./../../assets/images/Blink-Logo2.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
@@ -18,7 +18,7 @@ function LoginPage() {
         })
         .then((response) => {
           localStorage.setItem("user", JSON.stringify(response?.data));
-          navigate("/chats");
+          navigate("/dashboard");
         })
         .catch((error) => {
           console.log(error, "err");
@@ -39,7 +39,7 @@ function LoginPage() {
         <div className="w-auto h-auto bg-white rounded-lg px-8 pt-8">
           <div className="flex justify-center items-center flex-col">
             <div className="flex font-bold text-3xl p-1">
-              <img src={logo} alt="React Image " className=" w-10 h-10" />
+              <img src={logo} alt="React Image " className=" h-10" />
             </div>
             <div className="flex font-bold text-3xl text-gray-700 p-2">
               <p>WelCome Back</p>
