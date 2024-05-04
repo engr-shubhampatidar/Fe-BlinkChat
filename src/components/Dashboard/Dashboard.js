@@ -1,18 +1,27 @@
 import React from "react";
 import bell from "./../../assets/images/logo-bell.png";
-import logo from "./../../assets/images/logo-pencil.png";
+
 import fav from "./../../assets/images/love.png";
+import back from "./../../assets/images/left.png";
+import Drawer from "./OpenDrawer";
 
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../../services/sockets";
+import { useSelector } from "react-redux";
+import api from "../../services/api";
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [userList, setUserList] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("user"));
-  const [recipientUser, setRecipientUser] = useState(null);
+  // const [recipientUser, setRecipientUser] = useState(null);
+  const [openLeft, setOpenLeft] = useState(true);
+
+  const { reciepentUser: recipientUser } = useSelector((state) => state?.user);
+
+  console.log("store", recipientUser);
 
   const socket = useSocket();
 
@@ -77,6 +86,22 @@ function Dashboard() {
       });
   };
 
+  const getMessages = async () => {
+    await api
+      .get(`/api/messages/${currentUser?.id}/${recipientUser?._id}`)
+      .then((response) => {
+        console.log(response?.data);
+        setMessages(response?.data);
+      })
+      .catch((error) => {
+        console.log(error?.message);
+      });
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, [recipientUser]);
+
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -98,86 +123,43 @@ function Dashboard() {
 
   return (
     <>
-      <div className="flex flex-r w-full h-screen bg-gray-300 justify-center p-10">
+      <div className="flex flex-r w-full h-screen bg-gray-300 justify-center p-10 max-sm:p-0">
         {/* searchbox */}
-        <div className="bg-white rounded-l-2xl">
-          <div className="  w-80 h-5/6 pl-1 pr-1">
-            <div className=" h-20 flex flex-start p-4 items-center">
-              <img
-                className="rounded-full w-16 h-16"
-                src={"https://source.unsplash.com/random/200x200"}
-              ></img>
-              <div className=" pl-5 text-blue-600 text-xl w-48">
-                <p className="text-sm w-5 font-bold">{currentUser.name}</p>
-                <p className="text-xs w-5 ">
-                  {currentUser.email?.split("@")[0]}
-                </p>
-              </div>
-              <div className="ml-2 ">
-                <img className="coursor-pointer h-5 w-5" src={logo} />
-              </div>
-            </div>
-            <div className="flex w-full  p-5">
-              <input
-                className=" rounded-md text-sm text-gray-600 w-72 p-0.5 py-2
-                    border border-solid border-[rgb(214, 206, 206)]  pl-2"
-                placeholder="Find Friends..."
-              ></input>
-            </div>
-            <div className="overflow-y-auto h-5/6 no-scrollbar">
-              {userList.map((user) => (
-                <div
-                  key={user?._id}
-                  className=" babu flex w-full border rounded-lg border-solid border-gray-300] 
-                  hover:bg-gray-200 active:bg-gray-200 "
-                >
-                  <div className=" h-auto flex flex-start p-3 items-center">
-                    <img
-                      className="rounded-full w-10 h-10"
-                      src={"https://source.unsplash.com/random/200x200"}
-                    ></img>
-                    <div className=" pl-1 text-blue-600 text-sm">
-                      <div className="space-y-2 ">
-                        <div
-                          key={user._id}
-                          onClick={() => setRecipientUser(user)}
-                          className={`cursor-pointer p-3 rounded-md w-48 text-left ${
-                            recipientUser && recipientUser._id === user._id
-                              ? ""
-                              : ""
-                          }`}
-                        >
-                          {user.name}
-                        </div>
-                      </div>
-                    </div>
-                    <div className=" ">
-                      <p className="text-xs pb-2">10:00am</p>
-                      <p className="bg-green-700 ml-8 rounded-full text-xs  text-white">
-                        0
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+
         {/* chatbox */}
-        <div className="w-3/5 h-auto bg-gray-100 rounded-r-xl">
+        <div className="w-3/5 h-auto bg-gray-100 rounded-xl max-sm:rounded max-sm:w-full">
           <div className=" w-full">
-            <div className="flex w-full  border-b border-gray-300">
+            <div className="flex w-full  border-b border-gray-300  items-center">
+              <div
+                className=" flex
+    items-center justify-center "
+              >
+                <div
+                  className="
+        flex
+        items-center justify-center
+        cursor-pointer"
+                  onClick={() => setOpenLeft(!openLeft)}
+                >
+                  <img className="h-5 w-5 ml-2" src={back}></img>
+                </div>
+
+                <Drawer open={openLeft} side="left" setOpen={setOpenLeft} />
+              </div>
+
               <div className=" h-auto flex flex-start p-4 items-center">
                 <img
                   className="rounded-full w-12 h-12"
                   src={"https://source.unsplash.com/random/200x200"}
                 ></img>
                 <div className=" pl-5 text-blue-600 flex flex-row items-center">
-                  <p className="font-bold text-xl w-96  text-left">
+                  <p className="font-bold text-xl w-96  text-left max-sm:w-36 ">
                     {recipientUser?.name || "Select a user"}
                   </p>
-                  <img className="h-6 w-6 ml-96" src={fav} />
-                  <img className="h-6 w-6 ml-4" src={bell} />
+                  <div className="flex flex-row w-96 max-sm:w-40">
+                    <img className="h-6 w-6 ml-auto max-sm:ml-auto" src={fav} />
+                    <img className="h-6 w-6 ml-4" src={bell} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -187,7 +169,7 @@ function Dashboard() {
             {messages.map((message, index) => (
               <div
                 key={message._id}
-                className={`rounded-lg h-auto block p-2 max-w-lg mt-2 ${
+                className={`rounded-lg h-auto block p-2 w-auto  mt-2 ${
                   message.sender === currentUser.id
                     ? "bg-blue-200 self-end"
                     : "bg-gray-200 self-start"
