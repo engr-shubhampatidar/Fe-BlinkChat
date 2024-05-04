@@ -73,7 +73,7 @@ function Dashboard() {
   }, [currentUser.id]);
 
   const getAllUsers = async () => {
-    await axios
+    await api
       .get("/api/user/all")
       .then((res) => {
         const { user } = res?.data;
