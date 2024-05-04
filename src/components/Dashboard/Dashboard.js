@@ -1,15 +1,14 @@
 import React from "react";
 import bell from "./../../assets/images/logo-bell.png";
 
-import fav from "./../../assets/images/love.png";
 import back from "./../../assets/images/left.png";
+import fav from "./../../assets/images/love.png";
 import Drawer from "./OpenDrawer";
 
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useSocket } from "../../services/sockets";
 import { useSelector } from "react-redux";
 import api from "../../services/api";
+import { useSocket } from "../../services/sockets";
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
@@ -20,8 +19,6 @@ function Dashboard() {
   const [openLeft, setOpenLeft] = useState(true);
 
   const { reciepentUser: recipientUser } = useSelector((state) => state?.user);
-
-  console.log("store", recipientUser);
 
   const socket = useSocket();
 
@@ -62,7 +59,6 @@ function Dashboard() {
 
   useEffect(() => {
     socket.on("message", handleNewMessage);
-
     return () => {
       socket.off("message", handleNewMessage);
     };
@@ -90,7 +86,6 @@ function Dashboard() {
     await api
       .get(`/api/messages/${currentUser?.id}/${recipientUser?._id}`)
       .then((response) => {
-        console.log(response?.data);
         setMessages(response?.data);
       })
       .catch((error) => {
