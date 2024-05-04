@@ -74,7 +74,7 @@ function Dashboard() {
 
   const getAllUsers = async () => {
     await axios
-      .get("http://localhost:4000/api/user/all")
+      .get("/api/user/all")
       .then((res) => {
         const { user } = res?.data;
         if (user) {
