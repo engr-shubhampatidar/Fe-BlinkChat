@@ -163,8 +163,8 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                   <div className="  w-80  h-screen pl-1 pr-1">
                     <div className=" h-20 flex flex-start p-4 items-cente">
                       <img
-                        className="rounded-full w-16 h-16"
-                        src={"https://source.unsplash.com/random/200x200"}
+                        className="rounded-full object-cover w-16 h-16"
+                        src={currentUser?.url}
                       ></img>
                       <div className=" pl-5 text-blue-600 text-xl w-48">
                         <p className="text-sm w-5 font-bold">
@@ -204,8 +204,12 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                         >
                           <div className=" h-auto flex flex-start p-3 items-center">
                             <img
-                              className="rounded-full w-10 h-10"
-                              src={"https://source.unsplash.com/random/200x200"}
+                              className="rounded-full object-cover w-10 h-10"
+                              src={
+                                user?.url
+                                  ? user?.url
+                                  : "https://source.unsplash.com/random/200x200"
+                              }
                             ></img>
                             <div className=" pl-1 text-blue-600 text-sm">
                               <div className="space-y-2 ">

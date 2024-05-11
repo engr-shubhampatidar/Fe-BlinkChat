@@ -13,6 +13,10 @@ import { useSocket } from "../../services/sockets";
 function Dashboard() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [previousMessages, setPreviousMessages] = useState([]);
+  const [pollingInterval, setPollingInterval] = useState(1000); // Start with 1 second
+  const [consecutiveSameCount, setConsecutiveSameCount] = useState(0); // Track consecutive same messages
+
   const [userList, setUserList] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("user"));
   // const [recipientUser, setRecipientUser] = useState(null);
@@ -38,7 +42,7 @@ function Dashboard() {
   const sendMessage = () => {
     if (!recipientUser) return; // Ensure recipient is selected
     const message = {
-      sender: currentUser.id,
+      sender: currentUser._id,
       receiver: recipientUser._id,
       content: newMessage,
     };
@@ -65,8 +69,9 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (currentUser && currentUser.id) socket.emit("joinRoom", currentUser.id);
-  }, [currentUser.id]);
+    if (currentUser && currentUser._id)
+      socket.emit("joinRoom", currentUser._id);
+  }, [currentUser._id]);
 
   const getAllUsers = async () => {
     await api
@@ -82,20 +87,46 @@ function Dashboard() {
       });
   };
 
-  const getMessages = async () => {
-    await api
-      .get(`/api/messages/${currentUser?.id}/${recipientUser?._id}`)
-      .then((response) => {
-        setMessages(response?.data);
-      })
-      .catch((error) => {
-        console.log(error?.message);
-      });
-  };
-
   useEffect(() => {
-    getMessages();
-  }, [recipientUser]);
+    console.log(pollingInterval, "polling interval");
+    const fetchData = async () => {
+      try {
+        const response = await api.get(
+          `/api/messages/${currentUser?._id}/${recipientUser?._id}`
+        );
+        const newMessages = response?.data; // Assuming your API response has a "messages" property
+
+        if (JSON.stringify(newMessages) !== JSON.stringify(previousMessages)) {
+          setMessages(newMessages);
+          setPreviousMessages(newMessages);
+          setConsecutiveSameCount(0); // Reset consecutive count on message change
+          setPollingInterval(1000); // Reset interval to 1 second
+        } else {
+          setConsecutiveSameCount(consecutiveSameCount + 1);
+          if (consecutiveSameCount >= 5 && pollingInterval === 1000) {
+            if (pollingInterval <= 20000) {
+              setPollingInterval(pollingInterval + 5000); // Increase interval by 5 seconds
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
+
+    let intervalId; // Declare outside the if block
+
+    if (recipientUser) {
+      intervalId = setInterval(fetchData, pollingInterval);
+    }
+
+    // Cleanup function to clear the interval on unmount
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [recipientUser, consecutiveSameCount, previousMessages, pollingInterval]);
 
   useEffect(() => {
     getAllUsers();
@@ -165,7 +196,7 @@ function Dashboard() {
               <div
                 key={message._id}
                 className={`rounded-lg h-auto block p-2 w-auto  mt-2 ${
-                  message.sender === currentUser.id
+                  message.sender === currentUser._id
                     ? "bg-blue-200 self-end"
                     : "bg-gray-200 self-start"
                 }
