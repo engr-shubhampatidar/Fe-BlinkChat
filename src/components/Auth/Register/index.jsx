@@ -56,8 +56,8 @@ function Register() {
 
   return (
     <>
-      <div className="SignUp-page bg-gray-300 h-screen  height max-xl:home-bg">
-        <div className=" flex h-screen justify-center items-center  max-sm:p-2">
+      <div className="SignUp-page bg-gray-300 h-screen  height max-xl:home-bg max-sm:home-bg">
+        <div className="md:flex h-screen md:justify-center md:items-center md:p-2 max-sm:p-8">
           <div
             className="w-auto h-auto z-50 p-8 rounded-xl
                   bg-white  text-gray-600 max-sm:py-10"
@@ -117,8 +117,8 @@ function Register() {
                     name=""
                     id=""
                   >
-                    <option  value="Male">Male</option>
-                    <option  value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                   </select>
 
                   <p className="text-xs text-gray-400 text-left w-auto font-bold pb-1 ">
