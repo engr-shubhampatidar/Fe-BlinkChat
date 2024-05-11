@@ -121,6 +121,8 @@ function Dashboard() {
     return imageUrl;
   };
 
+  
+
   return (
     <>
       <div className="flex flex-r w-full h-screen bg-gray-300 justify-center p-10 max-sm:p-0">
@@ -148,10 +150,15 @@ function Dashboard() {
               </div>
 
               <div className=" h-auto flex flex-start p-4 items-center">
-                <img
+                {/* <img
                   className="rounded-full w-12 h-12"
                   src={"https://source.unsplash.com/random/200x200"}
-                ></img>
+                ></img> */}
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full ">
+                  <span class="font-medium text-gray-600 dark:text-gray-300">
+                    {recipientUser?.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
                 <div className=" pl-5 text-blue-600 flex flex-row items-center">
                   <p className="font-bold text-xl w-96  text-left max-sm:w-36 ">
                     {recipientUser?.name || "Select a user"}

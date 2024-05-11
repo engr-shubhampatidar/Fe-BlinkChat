@@ -10,6 +10,7 @@ import PrivateRoute from "./services/PrivateRoute";
 import { Provider } from "react-redux";
 import store from "./services/redux/store";
 
+
 function App() {
   return (
     <Provider store={store}>
@@ -19,7 +20,7 @@ function App() {
             <Route path="/" exact element={<Home />} />
             <Route path="/register" exact element={<Register />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/chats" element={<PrivateRoute Component={Chat} />} />
+
             <Route
               path="/dashboard"
               element={<PrivateRoute Component={Dashboard} />}

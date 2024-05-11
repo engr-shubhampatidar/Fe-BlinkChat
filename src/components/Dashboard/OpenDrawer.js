@@ -163,10 +163,15 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                 <div className="bg-white  from-block rounded-2xl ">
                   <div className="  w-80  h-screen pl-1 pr-1">
                     <div className=" h-20 flex flex-start p-4 items-cente">
-                      <img
+                      {/* <img
                         className="rounded-full w-16 h-16"
                         src={"https://source.unsplash.com/random/200x200"}
-                      ></img>
+                      ></img> */}
+                      <div class="relative inline-flex items-center justify-center w-10 h-9 overflow-hidden bg-[#014efe] rounded-full">
+                        <span class="font-medium text-gray-600 dark:text-gray-300">
+                          {currentUser.name?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
                       <div className=" pl-5 text-blue-600 text-xl w-48">
                         <p className="text-sm w-5 font-bold">
                           {currentUser.name}
@@ -204,10 +209,15 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                    hover:bg-gray-200 active:bg-gray-200 "
                         >
                           <div className=" h-auto flex flex-start p-3 items-center">
-                            <img
+                            {/* <img
                               className="rounded-full w-10 h-10"
                               src={"https://source.unsplash.com/random/200x200"}
-                            ></img>
+                            ></img> */}
+                            <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full ">
+                              <span class="font-medium text-gray-600 dark:text-gray-300">
+                                {user.name?.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
                             <div className=" pl-1 text-blue-600 text-sm">
                               <div className="space-y-2 ">
                                 <div
