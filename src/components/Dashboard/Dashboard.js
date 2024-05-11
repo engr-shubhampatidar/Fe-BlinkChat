@@ -154,41 +154,50 @@ function Dashboard() {
 
         {/* chatbox */}
         <div className="w-3/5 h-auto bg-gray-100 rounded-xl max-sm:rounded max-sm:w-full">
-          <div className=" w-full">
-            <div className="flex w-full  border-b border-gray-300  items-center">
-              <div
-                className=" flex
-    items-center justify-center "
-              >
-                <div
-                  className="
-        flex
-        items-center justify-center
-        cursor-pointer"
-                  onClick={() => setOpenLeft(!openLeft)}
-                >
-                  <img className="h-5 w-5 ml-2" src={back}></img>
-                </div>
-
-                <Drawer open={openLeft} side="left" setOpen={setOpenLeft} />
-              </div>
-
-              <div className=" h-auto flex flex-start p-4 items-center">
+          <div className=" w-full flex justify-between border-b border-gray-300">
+            {/* <div className="flex w-full  border-b border-gray-300  items-center"> */}
+            {/* <div
+              className=" flex
+               items-center justify-center "
+            > */}
+            <div
+              className="
+                  flex
+                  items-center justify-center
+                  cursor-pointer"
+              onClick={() => setOpenLeft(!openLeft)}
+            >
+              <img className="h-5 w-5 ml-2" src={back}></img>
+              {recipientUser?.url ? (
                 <img
-                  className="rounded-full w-12 h-12"
-                  src={"https://source.unsplash.com/random/200x200"}
+                  className="rounded-full object-cover w-10 h-10"
+                  src={recipientUser?.url}
                 ></img>
-                <div className=" pl-5 text-blue-600 flex flex-row items-center">
-                  <p className="font-bold text-xl w-96  text-left max-sm:w-36 ">
-                    {recipientUser?.name || "Select a user"}
-                  </p>
-                  <div className="flex flex-row w-96 max-sm:w-40">
-                    <img className="h-6 w-6 ml-auto max-sm:ml-auto" src={fav} />
-                    <img className="h-6 w-6 ml-4" src={bell} />
-                  </div>
+              ) : (
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full ml-2">
+                  <span class="font-medium text-gray-600 dark:text-gray-300 ">
+                    {recipientUser?.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
+
+              <div>
+                <p className="font-bold text-xl w-auto  text-left ml-2 ">
+                  {recipientUser?.name || "Select a user"}
+                </p>
+              </div>
+              <Drawer open={openLeft} side="left" setOpen={setOpenLeft} />
+            </div>
+            <div className=" h-auto flex p-4 items-center ">
+              <div className=" pl-5 text-blue-600">
+                <div className="flex flex-row justify-end">
+                  <img className="h-6 w-6 " src={fav} />
+                  <img className="h-6 w-6 ml-4" src={bell} />
                 </div>
               </div>
             </div>
+            {/* </div> */}
+            {/* </div> */}
           </div>
           {/* main chat */}
           <div className="h-4/5 flex flex-col bg-gray-100 p-4 overflow-y-auto no-scrollbar ">

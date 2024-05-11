@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { setReciepentUser } from "../../services/redux/userReducer";
 import { useSocket } from "../../services/sockets";
+import logOut from "./../../assets/images/logout.png";
+import editLogo from "./../../assets/images/edit-profile.png";
+import { NavLink } from "react-router-dom";
 
 const openClassNames = {
   right: "translate-x-0",
@@ -162,10 +165,18 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                 <div className="bg-white  from-block rounded-2xl ">
                   <div className="  w-80  h-screen pl-1 pr-1">
                     <div className=" h-20 flex flex-start p-4 items-cente">
-                      <img
-                        className="rounded-full object-cover w-16 h-16"
-                        src={currentUser?.url}
-                      ></img>
+                      {currentUser?.url ? (
+                        <img
+                          className="rounded-full object-cover w-16 h-16"
+                          src={currentUser?.url}
+                        ></img>
+                      ) : (
+                        <div class="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-[#014efe] rounded-full">
+                          <span class="font-medium text-gray-600 dark:text-gray-300">
+                            {currentUser.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
                       <div className=" pl-5 text-blue-600 text-xl w-48">
                         <p className="text-sm w-5 font-bold">
                           {currentUser.name}
@@ -175,16 +186,18 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                         </p>
                       </div>
                       <div className="ml-2 ">
-                        {/* <img className="coursor-pointer h-5 w-5" src={logo} /> */}
+                        <NavLink to={"/upload/profile"}>
+                          <img className="h-6 w-6 mr-1" src={editLogo} />
+                        </NavLink>
                         <button
                           onClick={() => {
                             localStorage.clear();
                             navigate("/login");
                           }}
-                          className="bg-blue-800 text-white rounded-md text-xs  font-600 w-16 py-2 mb-4
-                          border-2 border-solid"
+                          className=" w-6 h-5 py-2 flex items-center 
+                          "
                         >
-                          log Out
+                          <img src={logOut} />
                         </button>
                       </div>
                     </div>
@@ -203,14 +216,19 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                    hover:bg-gray-200 active:bg-gray-200 "
                         >
                           <div className=" h-auto flex flex-start p-3 items-center">
-                            <img
-                              className="rounded-full object-cover w-10 h-10"
-                              src={
-                                user?.url
-                                  ? user?.url
-                                  : "https://source.unsplash.com/random/200x200"
-                              }
-                            ></img>
+                            {user?.url ? (
+                              <img
+                                className="rounded-full object-cover w-10 h-10"
+                                src={user?.url}
+                              ></img>
+                            ) : (
+                              <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full ">
+                                <span class="font-medium text-gray-600 dark:text-gray-300">
+                                  {user.name?.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+
                             <div className=" pl-1 text-blue-600 text-sm">
                               <div className="space-y-2 ">
                                 <div
@@ -234,12 +252,6 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                                   {user.name}
                                 </div>
                               </div>
-                            </div>
-                            <div className=" ">
-                              <p className="text-xs pb-2">10:00am</p>
-                              <p className="bg-green-700 ml-8 rounded-full text-xs  text-white">
-                                0
-                              </p>
                             </div>
                           </div>
                         </div>

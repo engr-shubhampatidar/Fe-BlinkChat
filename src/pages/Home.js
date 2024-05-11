@@ -28,7 +28,7 @@ const Home = () => {
               <NavLink to={"/register"}>Get Started</NavLink>
               </p>
             </div>
-            <div className="hidden text-white font-bold text-right max-sm:block max-sm:ml-80"><h1>01</h1></div>
+            {/* <div className="hidden text-white font-bold text-right max-sm:block max-sm:ml-80"><h1>01</h1></div> */}
           </div>
           <div className="flex flex-row mt-20 mb-20 h-80 max-sm:h-full    max-sm:mb-12">
             <div className="basis-3/4 max-sm:h-full max-sm:pl-5">

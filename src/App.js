@@ -47,7 +47,6 @@ function App() {
               path="/dashboard"
               element={<PrivateRoute Component={Dashboard} />}
             />
-            <Route path="/Drawer" element={<Drawer />} />
           </Routes>
         </Router>
       </div>
