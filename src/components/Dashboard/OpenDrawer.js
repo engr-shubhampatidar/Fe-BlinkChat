@@ -8,7 +8,7 @@ import api from "../../services/api";
 import { setReciepentUser } from "../../services/redux/userReducer";
 import { useSocket } from "../../services/sockets";
 import logOut from "./../../assets/images/logout.png";
-import editLogo from "./../../assets/images/edit-profile.png"
+import editLogo from "./../../assets/images/edit-profile.png";
 import { NavLink } from "react-router-dom";
 
 const openClassNames = {
@@ -159,22 +159,25 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
             >
               <div
                 className={clsx(
-                  "flex flex-col  overflow-y-scroll shadow-xl bg-white rounded-r-2xl no-scrollbar"
+                  "flex flex-col  overflow-y-scroll shadow-xl bg-white rounded-2xl no-scrollbar"
                 )}
               >
                 <div className="bg-white  from-block rounded-2xl ">
                   <div className="  w-80  h-screen pl-1 pr-1">
                     <div className=" h-20 flex flex-start p-4 items-cente">
-                      {/* <img
-                        className="rounded-full w-16 h-16"
-                        src={"https://source.unsplash.com/random/200x200"}
-                      ></img> */}
-                      <div class="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-[#014efe] rounded-full">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">
-                          {currentUser.name?.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <div className=" pl-5 text-blue-600 text-xl w-44 flex flex-col justify-center">
+                      {currentUser?.url ? (
+                        <img
+                          className="rounded-full object-cover w-16 h-16"
+                          src={currentUser?.url}
+                        ></img>
+                      ) : (
+                        <div class="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-[#014efe] rounded-full">
+                          <span class="font-medium text-gray-600 dark:text-gray-300">
+                            {currentUser.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      <div className=" pl-5 text-blue-600 text-xl w-48">
                         <p className="text-sm w-5 font-bold">
                           {currentUser.name}
                         </p>
@@ -182,11 +185,10 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                           {currentUser.email?.split("@")[0]}
                         </p>
                       </div>
-                      <div className=" flex flex-row items-center">
+                      <div className="ml-2 ">
                         <NavLink to={"/upload/profile"}>
                           <img className="h-6 w-6 mr-1" src={editLogo} />
                         </NavLink>
-
                         <button
                           onClick={() => {
                             localStorage.clear();
@@ -211,18 +213,22 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                         <div
                           key={user?._id}
                           className=" babu flex w-full border rounded-lg border-solid border-gray-300] 
-                   hover:bg-gray-200 active:bg-gray-200 mb-1"
+                   hover:bg-gray-200 active:bg-gray-200 "
                         >
                           <div className=" h-auto flex flex-start p-3 items-center">
-                            {/* <img
-                              className="rounded-full w-10 h-10"
-                              src={"https://source.unsplash.com/random/200x200"}
-                            ></img> */}
-                            <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full ">
-                              <span class="font-medium text-gray-600 dark:text-gray-300">
-                                {user.name?.charAt(0).toUpperCase()}
-                              </span>
-                            </div>
+                            {user?.url ? (
+                              <img
+                                className="rounded-full object-cover w-10 h-10"
+                                src={user?.url}
+                              ></img>
+                            ) : (
+                              <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full ">
+                                <span class="font-medium text-gray-600 dark:text-gray-300">
+                                  {user.name?.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+
                             <div className=" pl-1 text-blue-600 text-sm">
                               <div className="space-y-2 ">
                                 <div

@@ -3,51 +3,72 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import back from "../assets/images/left.png";
 import { NavLink } from "react-router-dom";
+import api from "../services/api";
 
 function ImageUpload() {
-  const [image, setImage] = useState(null);
+  const [newImage, setNewImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [isClicked, setIsClicked] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
-      setImage(e.target.files[0]);
+      setNewImage(e.target.files[0]);
       setImageUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
 
-  console.log(image, "\n image");
+  const handleImageUpload = async () => {
+    try {
+      // Get the current user's profile image URL from MongoDB
+      if (!user) {
+        throw new Error("User not found");
+      }
+      const oldImageUrl = decodeURIComponent(user?.url);
 
-  const handleImageUpload = () => {
-    const storageRef = firebase.storage().ref();
-    const imageRef = storageRef.child(`images/${image.name}`);
-    setIsClicked(!isClicked);
-    imageRef
-      .put(image)
-      .then(() => {
-        console.log("Image uploaded successfully");
-        imageRef.getDownloadURL().then((url) => {
-          setImageUrl(url);
-        });
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-      });
-   
+      // Upload the new profile image to Firebase Storage
+      const storageRef = firebase.storage().ref();
+      const newImageRef = storageRef.child(`images/${newImage.name}`);
+      await newImageRef.put(newImage);
+      console.log("New image uploaded successfully");
+
+      // Get the download URL of the new profile image
+      const newImageUrl = await newImageRef.getDownloadURL();
+      setImageUrl(newImageUrl);
+
+      // Update the user's profile image URL in MongoDB
+      await api.post("/api/user/upload/profile", { imageUrl: newImageUrl });
+      console.log("User's profile image URL updated successfully");
+
+      // Delete the old profile image from Firebase Storage
+      if (oldImageUrl) {
+        // Extract the image file name from the URL
+        const splitUrl = oldImageUrl.split("?");
+        const splitPath = splitUrl[0].split("/");
+        const oldImageName = splitPath.pop(); // Extract the image file name
+
+        console.log("User's profile image URL", oldImageName);
+        const oldImageRef = storageRef.child(`/images/${oldImageName}`);
+
+        await oldImageRef.delete();
+        console.log("Old image deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error handling image upload:", error);
+      throw error;
+    }
   };
 
   return (
     <div>
       <div className="flex h-screen w- full bg-blue-200 justify-center items-center ">
         <div className="flex  bg-gray-200 rounded-xl justify-center p-3 text-left  flex-col">
-          
           <div className="text-xl font-bold  flex flex-row items-center">
             <div>
-            <NavLink to={"/dashboard"}>
-            <img className="h-5 w-5 mr-2" src={back}></img>
-            </NavLink>
-            
+              <NavLink to={"/dashboard"}>
+                <img className="h-5 w-5 mr-2" src={back}></img>
+              </NavLink>
             </div>
             <div>Profile Photo</div>
           </div>
