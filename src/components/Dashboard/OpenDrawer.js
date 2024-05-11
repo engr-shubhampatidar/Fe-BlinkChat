@@ -1,13 +1,12 @@
 import { clsx } from "clsx";
 import React from "react";
-import logo from "./../../assets/images/logo-pencil.png";
 
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useSocket } from "../../services/sockets";
 import { useDispatch } from "react-redux";
-import { setReciepentUser } from "../../services/redux/userReducer";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import { setReciepentUser } from "../../services/redux/userReducer";
+import { useSocket } from "../../services/sockets";
 
 const openClassNames = {
   right: "translate-x-0",
@@ -91,8 +90,8 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
   }, [currentUser.id]);
 
   const getAllUsers = async () => {
-    await axios
-      .get("http://localhost:4000/api/user/all")
+    await api
+      .get("/api/user/all")
       .then((res) => {
         const { user } = res?.data;
         if (user) {
