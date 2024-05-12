@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { setReciepentUser } from "../../services/redux/userReducer";
 import { useSocket } from "../../services/sockets";
-import logOut from "./../../assets/images/logout.png";
-import editLogo from "./../../assets/images/edit-profile.png";
+import logOut from "./../../assets/images/logout1.png";
+import editLogo from "./../../assets/images/image-.png";
 import { NavLink } from "react-router-dom";
 
 const openClassNames = {
@@ -159,25 +159,33 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
             >
               <div
                 className={clsx(
-                  "flex flex-col  overflow-y-scroll shadow-xl bg-white rounded-2xl no-scrollbar"
+                  "flex flex-col  overflow-y-scroll shadow-xl bg-white rounded-r-2xl no-scrollbar"
                 )}
               >
                 <div className="bg-white  from-block rounded-2xl ">
                   <div className="  w-80  h-screen pl-1 pr-1">
-                    <div className=" h-20 flex flex-start p-4 items-cente">
+                    <div className=" h-20 flex flex-start p-4 items-cente items-center">
                       {currentUser?.url ? (
-                        <img
-                          className="rounded-full object-cover w-16 h-16"
-                          src={currentUser?.url}
-                        ></img>
+                        <div className="relative">
+                          <img
+                            className="rounded-full object-cover w-16 h-16"
+                            src={currentUser?.url}
+                          ></img>
+                          <div className="absolute-icon rounded-full w-6 h-6 flex items-center justify-center bg-gray-600">
+                            <NavLink to={"/upload/profile"}>
+                              <img className="h-3 w-3" src={editLogo} />
+                            </NavLink>
+                          </div>
+                        </div>
                       ) : (
-                        <div class="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-[#014efe] rounded-full">
+                        <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-[#014efe] rounded-full">
                           <span class="font-medium text-gray-600 dark:text-gray-300">
                             {currentUser.name?.charAt(0).toUpperCase()}
                           </span>
                         </div>
                       )}
-                      <div className=" pl-5 text-blue-600 text-xl w-48">
+
+                      <div className=" pl-3 text-blue-600 text-xl w-48">
                         <p className="text-sm w-5 font-bold">
                           {currentUser.name}
                         </p>
@@ -185,19 +193,17 @@ const Drawer = ({ open, setOpen, side = "right" }) => {
                           {currentUser.email?.split("@")[0]}
                         </p>
                       </div>
-                      <div className="ml-2 ">
-                        <NavLink to={"/upload/profile"}>
-                          <img className="h-6 w-6 mr-1" src={editLogo} />
-                        </NavLink>
+                      <div className="flex flex-row ">
                         <button
                           onClick={() => {
                             localStorage.clear();
                             navigate("/login");
                           }}
-                          className=" w-6 h-5 py-2 flex items-center 
+                          className=" w-9 h-8 flex items-center justify-center rounded-md bg-red-500
                           "
                         >
-                          <img src={logOut} />
+                          <img className="h-4 w-4" src={logOut} />
+                          
                         </button>
                       </div>
                     </div>

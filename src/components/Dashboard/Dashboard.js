@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../services/api";
 import { useSocket } from "../../services/sockets";
+import send from "./../../assets/images/send-icon.png";
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
@@ -149,12 +150,12 @@ function Dashboard() {
 
   return (
     <>
-      <div className="flex flex-r w-full h-screen bg-gray-300 justify-center p-10 max-sm:p-0">
+      <div className="flex flex-r w-full h-screen bg-gray-300 chat-home-bg justify-center p-10 max-sm:p-0">
         {/* searchbox */}
 
         {/* chatbox */}
         <div className="w-3/5 h-auto bg-gray-100 rounded-xl max-sm:rounded max-sm:w-full">
-          <div className=" w-full flex justify-between border-b border-gray-300">
+          <div className=" w-full flex justify-between  rounded-t-xl border-b border-gray-300 topBar-bg">
             {/* <div className="flex w-full  border-b border-gray-300  items-center"> */}
             {/* <div
               className=" flex
@@ -200,16 +201,16 @@ function Dashboard() {
             {/* </div> */}
           </div>
           {/* main chat */}
-          <div className="h-4/5 flex flex-col bg-gray-100 p-4 overflow-y-auto no-scrollbar ">
+          <div className="h-4/5 flex flex-col p-4 overflow-y-auto no-scrollbar ">
             {messages.map((message, index) => (
               <div
                 key={message._id}
-                className={`rounded-lg h-auto block p-2 w-auto  mt-2 ${
+                className={`rounded-lg h-auto  p-2 w-auto max-sm:max-w-52  text-pretty break-words mt-2 ${
                   message.sender === currentUser._id
-                    ? "bg-blue-200 self-end"
-                    : "bg-gray-200 self-start"
+                    ? "bg-blue-200 self-end text-left"
+                    : "bg-gray-200 self-start text-left "
                 }
-                ${messages?.length - 1 === index ? "mb-10" : ""}`}
+                ${messages?.length - 1 === index ? "mb-8" : ""}`}
                 ref={messages?.length - 1 === index ? chatbox : null}
               >
                 <p className="text-sm">{message.content}</p>
@@ -219,7 +220,7 @@ function Dashboard() {
           {/* send box */}
           <div className="flex px-2 bg-gray-100">
             <input
-              className="flex-grow border rounded-l-md p-2"
+              className="flex-grow border rounded-xl p-2 pl-4 mt-4 bg-gray-300"
               type="text"
               placeholder="Type a message"
               value={newMessage}
@@ -231,10 +232,10 @@ function Dashboard() {
               }}
             />
             <button
-              className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-r-md hover:bg-blue-600"
+              className="bg-blue-500 text-white rounded-xl ml-1 mt-4 font-semibold px-4 py-2  hover:bg-blue-600"
               onClick={sendMessage}
             >
-              Send
+              <img className="h-4 w-4 hover:rotate-45" src={send} />
             </button>
           </div>
         </div>
