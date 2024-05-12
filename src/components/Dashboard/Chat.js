@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../services/api";
 import { useSocket } from "../../services/sockets";
+import send from "./../../assets/images/send-icon.png";
 
 export const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -9,6 +10,7 @@ export const Chat = () => {
   const [previousMessages, setPreviousMessages] = useState([]);
   const [pollingInterval, setPollingInterval] = useState(1000); // Start with 1 second
   const [consecutiveSameCount, setConsecutiveSameCount] = useState(0); // Track consecutive same messages
+  const [isFetching, setIsFetching] = useState(false); // Flag to track ongoing API call
   const intervalIdRef = useRef(null);
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -65,12 +67,20 @@ export const Chat = () => {
       socket.emit("joinRoom", currentUser._id);
   }, [currentUser._id]);
 
+  function isPhone() {
+    const userAgent = window.navigator.userAgent;
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    // Check if user agent contains "Android" or "iPhone" and if screen width is smaller than a certain threshold
+    return /Android|iPhone/.test(userAgent) && (screenWidth < 768 || screenHeight < 768);
+  }
+
   useEffect(() => {
-    let isFetching = false; // Flag to track ongoing API call
 
     const fetchData = async () => {
       if (isFetching) return; // Prevent multiple concurrent API calls
-      isFetching = true;
+      setIsFetching(true);
 
       try {
         const response = await api.get(
@@ -102,7 +112,7 @@ export const Chat = () => {
       } catch (error) {
         console.error("Error fetching messages:", error);
       } finally {
-        isFetching = false; // Reset flag after API call finishes
+        setIsFetching(false); // Reset flag after API call finishes
       }
     };
 
@@ -118,26 +128,29 @@ export const Chat = () => {
 
   return (
     <>
-      <div className="h-4/5 flex flex-col bg-gray-100 p-4 overflow-y-auto no-scrollbar ">
+      <div className={`flex flex-col p-4 overflow-y-auto no-scrollbar h-4/5`}>
         {messages.map((message, index) => (
           <div
             key={message._id}
-            className={`rounded-lg h-auto block p-2 w-auto  mt-2 ${
+            className={`rounded-lg h-auto  p-2 w-auto max-sm:max-w-52 text-pretty break-words mt-2 ${
               message.sender === currentUser._id
-                ? "bg-blue-200 self-end"
-                : "bg-gray-200 self-start"
-            }
-                ${messages?.length - 1 === index ? "mb-10" : ""}`}
+                ? "bg-blue-200 self-end text-left"
+                : "bg-gray-200 self-start text-left"
+              }`}
+            // ${messages?.length - 1 === index ? "mb-8" : ""}`}
             ref={messages?.length - 1 === index ? chatBox : null}
           >
             <p className="text-sm">{message.content}</p>
           </div>
         ))}
+        <div className="p-1 m-1">
+          <p>{isFetching ? "Fetching messages...." : "All messages are loaded"}</p>
+        </div>
       </div>
       {/* send box */}
-      <div className="flex px-2 bg-gray-100">
+      <div className="flex px-2 mt-4 bg-gray-100">
         <input
-          className="flex-grow border rounded-l-md p-2"
+          className="flex-grow border rounded-xl p-2 pl-4 bg-gray-300"
           type="text"
           placeholder="Type a message"
           value={newMessage}
@@ -149,10 +162,10 @@ export const Chat = () => {
           }}
         />
         <button
-          className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-r-md hover:bg-blue-600"
+          className="bg-blue-500 text-white rounded-xl ml-1 font-semibold px-4 py-2  hover:bg-blue-600"
           onClick={sendMessage}
         >
-          Send
+          <img className="h-4 w-4 hover:rotate-45" src={send} />
         </button>
       </div>
     </>

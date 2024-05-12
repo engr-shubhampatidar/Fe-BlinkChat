@@ -14,6 +14,44 @@ body {
   background-blend-mode: multiply;
 }
 
+.chat-home-bg {
+  background-image: url(../src//assets/images/background.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Set opacity */
+  opacity: 1;
+  /* Adjust opacity value as needed (0.0 to 1.0) */
+  background-blend-mode: luminosity;
+}
+
+.dashboard-bg {
+  background-image: url(../src//assets/images/lust.avif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.topBar-bg {
+  background-image: url(../src//assets/images/wave2.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.absolute-icon {
+  position: absolute;
+  right: -4px;
+  bottom: 3px;
+  background: red;
+  padding: 0;
+  margin: 0;
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

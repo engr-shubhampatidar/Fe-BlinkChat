@@ -17,9 +17,12 @@ function Dashboard() {
 
   return (
     <>
-      <div className="flex flex-r w-full h-screen bg-gray-300 justify-center p-10 max-sm:p-0">
+      <div className="flex flex-r w-full h-screen bg-gray-300 chat-home-bg justify-center p-10 max-sm:p-0">
         <div className="w-3/5 h-auto bg-gray-100 rounded-xl max-sm:rounded max-sm:w-full">
-          <div className=" w-full flex justify-between border-b border-gray-300">
+          <div className=" w-full flex justify-between  rounded-t-xl border-b border-gray-300 topBar-bg">
+            {/* <div className="flex flex-r w-full h-screen bg-gray-300 justify-center p-10 max-sm:p-0"> */}
+            {/* <div className="w-3/5 h-auto bg-gray-100 rounded-xl max-sm:rounded max-sm:w-full"> */}
+            {/* <div className=" w-full flex justify-between border-b border-gray-300"> */}
             <div
               className="flex
                   items-center justify-center
@@ -54,6 +57,9 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+            {/* </div> */}
+            {/* </div> */}
+            {/* </div> */}
           </div>
           <Chat />
         </div>
