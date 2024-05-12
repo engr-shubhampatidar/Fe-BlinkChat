@@ -6,9 +6,6 @@ import fav from "./../../assets/images/love.png";
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import api from "../../services/api";
-import { useSocket } from "../../services/sockets";
-import send from "./../../assets/images/send-icon.png";
 import { Chat } from "./Chat";
 import ChatHub from "./ChatHub";
 
