@@ -4,12 +4,10 @@ import bell from "./../../assets/images/logo-bell.png";
 import back from "./../../assets/images/left.png";
 import fav from "./../../assets/images/love.png";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import api from "../../services/api";
-import { useSocket } from "../../services/sockets";
-import ChatHub from "./ChatHub";
 import { Chat } from "./Chat";
+import ChatHub from "./ChatHub";
 
 function Dashboard() {
   // const [recipientUser, setRecipientUser] = useState(null);

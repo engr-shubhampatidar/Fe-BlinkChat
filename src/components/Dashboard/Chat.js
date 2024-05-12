@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../services/api";
 import { useSocket } from "../../services/sockets";
@@ -10,7 +9,7 @@ export const Chat = () => {
   const [previousMessages, setPreviousMessages] = useState([]);
   const [pollingInterval, setPollingInterval] = useState(1000); // Start with 1 second
   const [consecutiveSameCount, setConsecutiveSameCount] = useState(0); // Track consecutive same messages
-  const timeoutRef = useRef(null); // Ref to store the timeout
+  const intervalIdRef = useRef(null);
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -67,9 +66,8 @@ export const Chat = () => {
   }, [currentUser._id]);
 
   useEffect(() => {
-    console.log(pollingInterval, consecutiveSameCount, "polling interval");
     let isFetching = false; // Flag to track ongoing API call
-    let intervalId; // Declare outside the if block
+
     const fetchData = async () => {
       if (isFetching) return; // Prevent multiple concurrent API calls
       isFetching = true;
@@ -85,22 +83,19 @@ export const Chat = () => {
           setPreviousMessages(newMessages);
           setConsecutiveSameCount(0); // Reset consecutive count on message change
           setPollingInterval(1000); // Reset interval to 1 second
-          clearTimeout(timeoutRef.current); // Clear timeout if message changes
-          timeoutRef.current = null;
         } else {
           setConsecutiveSameCount(consecutiveSameCount + 1);
           if (consecutiveSameCount >= 5) {
             if (pollingInterval <= 20000) {
-              setPollingInterval(pollingInterval + 5000); // Increase interval by 5 seconds
+              setPollingInterval(5000); // Increase interval by 5 seconds
             } else {
               setPollingInterval(1000);
             }
           }
           // Check for 2 minutes of inactivity
-          if (consecutiveSameCount >= 25) {
+          if (consecutiveSameCount >= 10) {
             // Assuming 120 calls = 2 minutes (1000ms/call * 120 calls = 120 seconds)
-            clearInterval(intervalId);
-            setMessages([]); // Clear messages if inactive for 2 minutes
+            clearInterval(intervalIdRef.current); // Clear interval using ref
             console.log("Stopped fetching messages due to inactivity.");
           }
         }
@@ -112,16 +107,13 @@ export const Chat = () => {
     };
 
     if (recipientUser) {
-      intervalId = setInterval(fetchData, pollingInterval);
+      // Clear previous interval before setting a new one
+      clearInterval(intervalIdRef.current);
+      intervalIdRef.current = setInterval(fetchData, pollingInterval);
     }
 
     // Cleanup function to clear the interval on unmount
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-        clearTimeout(timeoutRef.current); // Clear timeout on unmount as well
-      }
-    };
+    return () => clearInterval(intervalIdRef.current);
   }, [recipientUser, consecutiveSameCount, previousMessages, pollingInterval]);
 
   return (
