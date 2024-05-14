@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setRecipientUser } from "../../services/redux/userReducer";
+import { closeChatHub, setUserList } from "../../services/redux/chatHubReducer";
+import { clearMessages } from "../../services/redux/messageReducer";
 
 export const UserList = () => {
-  const [userList, setUserList] = useState([]);
   const { recipientUser } = useSelector((state) => state?.user);
+  const { userList } = useSelector((state) => state?.chatHub);
 
   const dispatch = useDispatch();
 
@@ -15,7 +17,7 @@ export const UserList = () => {
       .then((res) => {
         const { users } = res?.data;
         if (users) {
-          setUserList(users);
+          dispatch(setUserList({ userList: users }))
         }
       })
       .catch((err) => {
@@ -26,10 +28,17 @@ export const UserList = () => {
   useEffect(() => {
     getAllUsers();
   }, []);
+
+
+  if (userList?.length <= 0) {
+    return null
+  }
+
   return (
     <div className="overflow-y-auto h-4/5 no-scrollbar">
-      {userList.map((user) => (
+      {userList?.map((user) => (
         <div
+
           key={user?._id}
           className=" babu flex w-full border rounded-lg border-solid border-gray-300] 
                    hover:bg-gray-200 active:bg-gray-200 "
@@ -59,6 +68,8 @@ export const UserList = () => {
                         recipientUser: user,
                       })
                     );
+                    dispatch(closeChatHub())
+                    dispatch(clearMessages())
                   }}
                   className={`cursor-pointer p-3 rounded-md w-48 text-left ${
                     recipientUser && recipientUser._id === user._id ? "" : ""

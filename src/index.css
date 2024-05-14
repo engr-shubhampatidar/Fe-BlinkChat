@@ -42,6 +42,14 @@ body {
 
 }
 
+.profile-bg{
+  background-image: url(../src//assets/images/pink-heart-bg.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
 .absolute-icon {
   position: absolute;
   right: -4px;
@@ -50,6 +58,11 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.chat-height {
+  height: 82vh;
+}
+
 
 
 @tailwind base;

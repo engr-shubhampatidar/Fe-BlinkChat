@@ -1,10 +1,14 @@
 import { clsx } from "clsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import editLogo from "./../../assets/images/image-.png";
 import logOut from "./../../assets/images/logout1.png";
 import { UserList } from "./UserList";
+import { setUserList, toggleChatHub } from "../../services/redux/chatHubReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { query, set } from "firebase/database";
+import api from "../../services/api";
 
 const openClassNames = {
   right: "translate-x-0",
@@ -27,10 +31,27 @@ const classNames = {
   bottom: "inset-x-0 bottom-0",
 };
 
-const ChatHub = ({ open, setOpen, side = "right" }) => {
+const ChatHub = ({ side = "right" }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [searchText, setSearchText] = useState();
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
+  const { isOpen } = useSelector((state) => state?.chatHub);
+
+  const handleSearch = async (searchText) => {
+    try {
+      setSearchText(searchText);
+      const response = await api.get(`/api/user/search?name=${searchText}`);
+      const { users: newUserList } = response?.data;
+      if (newUserList) {
+        dispatch(setUserList({ userList: newUserList }))
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div
@@ -39,18 +60,18 @@ const ChatHub = ({ open, setOpen, side = "right" }) => {
       aria-labelledby="slide-over"
       role="dialog"
       aria-modal="true"
-      onClick={() => setOpen(!open)}
+      onClick={() => dispatch(toggleChatHub())}
     >
       <div
         className={clsx(
           "fixed inset-0 bg-gray-500 bg-opacity-75 transition-all",
           {
-            "opacity-100 duration-500 ease-in-out visible": open,
+            "opacity-100 duration-500 ease-in-out visible": isOpen,
           },
-          { "opacity-0 duration-500 ease-in-out invisible": !open }
+          { "opacity-0 duration-500 ease-in-out invisible": !isOpen }
         )}
       ></div>
-      <div className={clsx({ "fixed inset-0 overflow-hidden": open })}>
+      <div className={clsx({ "fixed inset-0 overflow-hidden": isOpen })}>
         <div className="absolute inset-0 overflow-hidden">
           <div
             className={clsx(
@@ -61,8 +82,8 @@ const ChatHub = ({ open, setOpen, side = "right" }) => {
             <div
               className={clsx(
                 "pointer-events-auto relative w-full h-full transform transition ease-in-out duration-500",
-                { [closeClassNames[side]]: !open },
-                { [openClassNames[side]]: open }
+                { [closeClassNames[side]]: !isOpen },
+                { [openClassNames[side]]: isOpen }
               )}
               onClick={(event) => {
                 event.preventDefault();
@@ -76,7 +97,7 @@ const ChatHub = ({ open, setOpen, side = "right" }) => {
               >
                 <div className="bg-white  from-block rounded-2xl ">
                   <div className="  w-80  h-screen pl-1 pr-1">
-                    <div className=" h-20 flex flex-start p-4 items-cente items-center">
+                    <div className=" h-20 flex flex-start p-4 items-cente items-center profile-bg">
                       {currentUser?.url ? (
                         <div className="relative">
                           <img
@@ -118,6 +139,8 @@ const ChatHub = ({ open, setOpen, side = "right" }) => {
                     </div>
                     <div className="flex w-full  p-5">
                       <input
+                        value={searchText}
+                        onChange={(e) => handleSearch(e.target.value)}
                         className="rounded-md text-sm text-gray-600 w-72 p-0.5 py-2
                     border border-solid border-[rgb(214, 206, 206)] pl-2 "
                         placeholder="Find Friends..."
