@@ -57,10 +57,10 @@ function Register() {
   return (
     <>
       <div className="SignUp-page bg-gray-300 h-screen  height max-xl:home-bg max-sm:home-bg">
-        <div className="md:flex h-screen md:justify-center md:items-center md:p-2 max-sm:p-8">
+        <div className="md:flex md:h-screen md:justify-center md:items-center md:p-2 max-sm:p-8">
           <div
             className="w-auto h-auto z-50 p-8 rounded-xl
-                  bg-white  text-gray-600 max-sm:py-10"
+                  bg-white text-gray-600 max-sm:py-10"
           >
             <div className="flex justify-start text-3xl font-bold p-2 max-sm:justify-center">
               <img src={logo2} alt="blinkchat-logo" className="h-10" />
